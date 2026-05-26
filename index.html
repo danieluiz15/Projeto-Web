@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="pagina">
+    <div class="conteiner">
+      <header class="titulo">
+        <h1>Sistema de Login</h1>
+      </header>
+
+      <section id="visaoLogin" class="grade">
+        <div class="cartao">
+          <div class="titulo-secao">
+            <h2>Entrar</h2>
+            <span class="etiqueta">Tela de login</span>
+          </div>
+
+          <div id="infoLogin" class="mensagem informacao"></div>
+          <div id="erroLogin" class="mensagem erro"></div>
+
+          <form id="formLogin" novalidate>
+            <div class="campo">
+              <label for="entradaEmail">E-mail</label>
+              <input id="entradaEmail" type="email" placeholder="seuemail@exemplo.com">
+            </div>
+
+            <div class="campo">
+              <label for="entradaSenha">Senha</label>
+              <input id="entradaSenha" type="password" placeholder="Digite sua senha">
+            </div>
+
+            <div class="botoes">
+              <button class="primario" type="submit">Entrar</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="cartao">
+          <div class="titulo-secao">
+            <h2>Acesso demo</h2>
+            <span class="etiqueta">Teste</span>
+          </div>
+          <div class="vazio">
+            E-mail: aluno@web.com<br><br>
+            Senha: 123456<br><br>
+          </div>
+        </div>
+      </section>
+
+      <section id="visaoApp" class="cartao oculto">
+        <div class="barra-topo">
+          <div>
+            <h2 id="textoBemVindo">Área protegida</h2>
+            <p id="textoSessao" class="subtitulo">Sessão ativa.</p>
+          </div>
+          <div class="botoes">
+            <button class="perigo" type="button" id="botaoSair">Sair</button>
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const CHAVE_AUTENTICACAO = "sessao-web";
+    const EMAIL_DEMO = "aluno@web.com";
+    const SENHA_DEMO = "123456";
+
+    const visaoLogin = document.getElementById("visaoLogin");
+    const visaoApp = document.getElementById("visaoApp");
+    const formLogin = document.getElementById("formLogin");
+    const infoLogin = document.getElementById("infoLogin");
+    const erroLogin = document.getElementById("erroLogin");
+    const entradaEmail = document.getElementById("entradaEmail");
+    const entradaSenha = document.getElementById("entradaSenha");
+    const botaoSair = document.getElementById("botaoSair");
+    const textoBemVindo = document.getElementById("textoBemVindo");
+    const textoSessao = document.getElementById("textoSessao");
+
+    let usuarioAtual = carregarSessao();
+
+    function carregarSessao() {
+      const armazenado = localStorage.getItem(CHAVE_AUTENTICACAO);
+      return armazenado ? JSON.parse(armazenado) : null;
+    }
+
+    function salvarSessao(usuario) {
+      localStorage.setItem(CHAVE_AUTENTICACAO, JSON.stringify(usuario));
+    }
+
+    function limparSessao() {
+      localStorage.removeItem(CHAVE_AUTENTICACAO);
+    }
+
+    function mostrarMensagem(elemento, texto) {
+      elemento.textContent = texto;
+      elemento.style.display = "block";
+    }
+
+    function esconderMensagem(elemento) {
+      elemento.textContent = "";
+      elemento.style.display = "none";
+    }
+
+    function renderizar() {
+      const logado = Boolean(usuarioAtual);
+      visaoLogin.classList.toggle("oculto", logado);
+      visaoApp.classList.toggle("oculto", !logado);
+
+      if (logado) {
+        textoBemVindo.textContent = `Bem-vindo, ${usuarioAtual.email}`;
+      }
+    }
+
+    formLogin.addEventListener("submit", (event) => {
+      event.preventDefault();
+      esconderMensagem(erroLogin);
+      esconderMensagem(infoLogin);
+
+      const email = entradaEmail.value.trim();
+      const senha = entradaSenha.value.trim();
+
+      if (!email || !senha) {
+        mostrarMensagem(erroLogin, "Preencha o e-mail e a senha.");
+        return;
+      }
+
+      if (!email.includes("@")) {
+        mostrarMensagem(erroLogin, "Informe um e-mail válido.");
+        return;
+      }
+
+      if (email !== EMAIL_DEMO || senha !== SENHA_DEMO) {
+        mostrarMensagem(erroLogin, "Credenciais inválidas.");
+        return;
+      }
+
+      usuarioAtual = { email };
+      salvarSessao(usuarioAtual);
+      mostrarMensagem(infoLogin, "Login realizado com sucesso.");
+      renderizar();
+      formLogin.reset();
+    });
+
+    botaoSair.addEventListener("click", () => {
+      usuarioAtual = null;
+      limparSessao();
+      renderizar();
+    });
+
+    renderizar();
+  </script>
+</body>
+</html>
