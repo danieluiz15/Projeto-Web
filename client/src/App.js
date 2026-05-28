@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import "./style.css";
+import PetsCrud from "./pages/PetsCrud";
 
 const CHAVE_AUTENTICACAO = "sessao-web";
 const EMAIL_DEMO = "aluno@web.com";
@@ -159,6 +160,7 @@ function App() {
               </button>
             </div>
           </div>
+            <PetsCrud />
         </section>
       </div>
     </main>
