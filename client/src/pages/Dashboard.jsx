@@ -1,32 +1,20 @@
-import { useContext }
-from "react";
-
-import { AuthContext }
-from "../context/AuthContext";
+import { useContext } from "react";
+import Navbar from "../components/Navbar";
+import PetsCrud from "./PetsCrud";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Dashboard() {
-
-  const {
-    usuario,
-    logout
-  } = useContext(AuthContext);
+  const { usuario } = useContext(AuthContext);
 
   return (
+    <>
+      <Navbar />
+      <main className="page-content dashboard-page">
+        <h1>Bem-vindo, {usuario.email}!</h1>
+        <p>Gerenciamento de Pets</p>
 
-    <div className="cartao">
-
-      <h1>
-        Bem-vindo,
-        {usuario.email}
-      </h1>
-
-      <button
-        className="perigo"
-        onClick={logout}
-      >
-        Sair
-      </button>
-
-    </div>
+        <PetsCrud />
+      </main>
+    </>
   );
 }
