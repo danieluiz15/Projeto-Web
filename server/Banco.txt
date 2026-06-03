@@ -1,0 +1,11 @@
+CREATE DATABASE IF NOT EXISTS pet;
+
+USE pet;
+
+CREATE TABLE pet_adocao(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(60) NOT NULL,
+    tipo ENUM("Cachorro", "Gato", "Outro") NOT NULL,
+    idade INT NOT NULL,
+    descricao VARCHAR(255) NOT NULL
+);
