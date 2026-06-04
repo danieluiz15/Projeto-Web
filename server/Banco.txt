@@ -9,3 +9,17 @@ CREATE TABLE pet_adocao(
     idade DECIMAL(4,2) NOT NULL,
     descricao VARCHAR(255) NOT NULL
 );
+
+# Dados de teste para a utilização no prejeto
+
+INSERT INTO pet_adocao (nome, tipo, idade, descricao) VALUES
+('Rex', 'Cachorro', 3.50, 'Cachorro dócil e brincalhão, adora correr e interagir com pessoas.');
+
+INSERT INTO pet_adocao (nome, tipo, idade, descricao) VALUES
+('Mimi', 'Gato', 2.00, 'Gata tranquila, gosta de ambientes calmos e é muito carinhosa.');
+
+INSERT INTO pet_adocao (nome, tipo, idade, descricao) VALUES
+('Thor', 'Cachorro', 5.00, 'Cachorro protetor e leal, ideal para quem busca companhia fiel.');
+
+INSERT INTO pet_adocao (nome, tipo, idade, descricao) VALUES
+('Luna', 'Outro', 1.25, 'Coelha branca muito ativa, perfeita para famílias com crianças.');
