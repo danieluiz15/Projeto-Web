@@ -15,7 +15,7 @@ export default function Pets() {
       .catch((error)=> console.log("Erro ao buscar dados: ", error));
   }, []);
 
-  function editPet(pet){
+  function editarPet(pet){
     document.getElementById('editId').value = pet.id;
     document.getElementById('editNome').value = pet.nome;
     document.getElementById('editTipo').value = pet.tipo;
@@ -47,6 +47,21 @@ export default function Pets() {
     });
   }
 
+  function deletarPet(id){
+    const index = dados.findIndex(pet => id === pet.id);
+
+    if(index === -1){
+      alert("Algo deu errado ao tentar excluir o pet, tente novamente");
+    }else{
+      if(window.confirm("Deseja realmente excluir o pet da lista de adoção?")){
+        Axios.delete(`http://localhost:3001/pet_adocao/${id}`);
+        window.location.reload();
+      }else{
+        return "Operação cancelada"
+      }
+    }
+  }
+
   return (
     <>
       <Navbar />
@@ -63,7 +78,8 @@ export default function Pets() {
               <PetAdocao
                 key={pet.id}
                 pet={pet}
-                onEdit={editPet}
+                onEdit={editarPet}
+                onDelete={deletarPet}
               />
             ))
           ) : (

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function PetAdocao ({pet, onEdit}){
+export default function PetAdocao ({pet, onEdit, onDelete}){
     return(
         <article className="pet-card" key={pet.id}>
             <div className="card-body">
@@ -18,7 +18,7 @@ export default function PetAdocao ({pet, onEdit}){
                 <button className="btn btn-outline-secondary" type="button" onClick={()=>onEdit(pet)}>
                     Editar pet
                 </button>
-                <button className="btn btn-outline-danger" type="button">
+                <button className="btn btn-outline-danger" type="button" onClick={()=>onDelete(pet.id)}>
                     Excluir pet
                 </button>
             </div>
