@@ -716,6 +716,43 @@ tr:last-child td {
   padding: 24px;
 }
 
+/* Configurações do modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+}
+.modal h2{
+  text-align: center;
+}
+
+.modal-conteudo {
+  background: white;
+  padding: 10px 5px 20px;
+  margin: 10% auto;
+  width: 500px;
+  border-radius: 8px;
+}
+
+.botoes-modal{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.form-group-modal input{
+  width: 100%;
+  height: 30px;
+  padding-left: 2%;
+}
+
+.form-group-modal{
+  margin: 2% 15%;
+}
+
 /* RESPONSIVO */
 @media (max-width: 900px) {
   .carousel-inner,

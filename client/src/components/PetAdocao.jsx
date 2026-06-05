@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
-// style={{width: 18 + 'rem'}}
-export default function PetAdocao ({pet}){
+export default function PetAdocao ({pet, onEdit}){
     return(
         <article className="pet-card" key={pet.id}>
             <div className="card-body">
@@ -16,7 +15,7 @@ export default function PetAdocao ({pet}){
                 Quero adotar
             </Link>
             <div class="d-flex justify-content-center" style={{marginTop: 1 + 'vh', columnGap: 2 + '%'}}> 
-                <button className="btn btn-outline-secondary" type="button">
+                <button className="btn btn-outline-secondary" type="button" onClick={()=>onEdit(pet)}>
                     Editar pet
                 </button>
                 <button className="btn btn-outline-danger" type="button">
