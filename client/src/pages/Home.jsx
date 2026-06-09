@@ -23,10 +23,16 @@ export default function Home() {
             <strong>Você está logado como {usuario.email}.</strong>
             <p>Agora as funções protegidas estão liberadas no menu.</p>
           </div>
+
           <div className="faixa-acoes">
             <Link className="btn btn-light" to="/dashboard">
               Abrir área logada
             </Link>
+
+            <Link className="btn btn-light" to="/pedidos-adocao">
+              Pedidos de Adoção
+            </Link>
+
             <Link className="btn btn-outline-light" to="/add-pet">
               Adicionar pet
             </Link>
@@ -34,9 +40,17 @@ export default function Home() {
         </section>
       )}
 
-      <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
+      <div
+        id="carouselExampleIndicators"
+        className="carousel slide"
+        data-ride="carousel"
+      >
         <ol className="carousel-indicators">
-          <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
+          <li
+            data-target="#carouselExampleIndicators"
+            data-slide-to="0"
+            className="active"
+          ></li>
           <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
           <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
           <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
@@ -44,24 +58,54 @@ export default function Home() {
 
         <div className="carousel-inner">
           <div className="carousel-item active">
-            <img className="d-block w-100 hero-img" src={slide1} alt="Primeiro slide" />
+            <img
+              className="d-block w-100 hero-img"
+              src={slide1}
+              alt="Primeiro slide"
+            />
           </div>
+
           <div className="carousel-item">
-            <img className="d-block w-100 hero-img" src={slide2} alt="Segundo slide" />
+            <img
+              className="d-block w-100 hero-img"
+              src={slide2}
+              alt="Segundo slide"
+            />
           </div>
+
           <div className="carousel-item">
-            <img className="d-block w-100 hero-img" src={slide3} alt="Terceiro slide" />
+            <img
+              className="d-block w-100 hero-img"
+              src={slide3}
+              alt="Terceiro slide"
+            />
           </div>
+
           <div className="carousel-item">
-            <img className="d-block w-100 hero-img" src={banner} alt="Banner promocional" />
+            <img
+              className="d-block w-100 hero-img"
+              src={banner}
+              alt="Banner promocional"
+            />
           </div>
         </div>
 
-        <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <a
+          className="carousel-control-prev"
+          href="#carouselExampleIndicators"
+          role="button"
+          data-slide="prev"
+        >
           <span className="carousel-control-prev-icon" aria-hidden="true"></span>
           <span className="sr-only">Anterior</span>
         </a>
-        <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+
+        <a
+          className="carousel-control-next"
+          href="#carouselExampleIndicators"
+          role="button"
+          data-slide="next"
+        >
           <span className="carousel-control-next-icon" aria-hidden="true"></span>
           <span className="sr-only">Próximo</span>
         </a>
@@ -70,22 +114,30 @@ export default function Home() {
       <section className="t1">
         <h3>Conheça o Cafofo dos Peludos</h3>
         <p>
-          A ONG de adoção de animais tem como principal objetivo resgatar, cuidar e promover a adoção
-          responsável de animais abandonados ou em situação de risco. Seu trabalho envolve tratamento
-          veterinário, alimentação, abrigo, amor e campanhas de conscientização sobre adoção responsável.
+          A ONG de adoção de animais tem como principal objetivo resgatar, cuidar
+          e promover a adoção responsável de animais abandonados ou em situação
+          de risco. Seu trabalho envolve tratamento veterinário, alimentação,
+          abrigo, amor e campanhas de conscientização sobre adoção responsável.
         </p>
       </section>
 
       <section className="card-group cards-home">
         <div className="card2">
-          <img className="card-img-to" src={adotar} alt="Pessoa adotando animal" />
+          <img
+            className="card-img-to"
+            src={adotar}
+            alt="Pessoa adotando animal"
+          />
+
           <div className="card-body">
             <h5 className="card-title">Ache seu novo amiguinho</h5>
             <p className="card-tex">
-              Adotar um animalzinho é um gesto de carinho e responsabilidade. Procure abrigos ou ONGs,
-              conheça os animais disponíveis e escolha com atenção.
+              Adotar um animalzinho é um gesto de carinho e responsabilidade.
+              Procure abrigos ou ONGs, conheça os animais disponíveis e escolha
+              com atenção.
             </p>
           </div>
+
           <div className="card-footer">
             <small className="text-muted">
               Confira a lista de animais <Link to="/pets">aqui</Link>.
@@ -94,14 +146,20 @@ export default function Home() {
         </div>
 
         <div className="card2">
-          <img className="card-img-to" src={adocao} alt="Formulário de adoção" />
+          <img
+            className="card-img-to"
+            src={adocao}
+            alt="Formulário de adoção"
+          />
+
           <div className="card-body">
             <h5 className="card-title">Formulário de interesse</h5>
             <p className="card-tex">
-              O formulário ajuda a ONG a entender seu perfil e garantir que você está pronto para cuidar de
-              um animal com responsabilidade.
+              O formulário ajuda a ONG a entender seu perfil e garantir que você
+              está pronto para cuidar de um animal com responsabilidade.
             </p>
           </div>
+
           <div className="card-footer">
             <small className="text-muted">
               Confira o formulário <Link to="/declaracao">aqui</Link>.
@@ -110,14 +168,20 @@ export default function Home() {
         </div>
 
         <div className="card2">
-          <img className="card-img-to" src={formulario} alt="Adoção finalizada" />
+          <img
+            className="card-img-to"
+            src={formulario}
+            alt="Adoção finalizada"
+          />
+
           <div className="card-body">
             <h5 className="card-title">Adoção finalizada</h5>
             <p className="card-tex">
-              Depois da aprovação, você começa uma jornada de momentos especiais com seu novo companheiro.
-              Seu gesto faz toda a diferença.
+              Depois da aprovação, você começa uma jornada de momentos especiais
+              com seu novo companheiro. Seu gesto faz toda a diferença.
             </p>
           </div>
+
           <div className="card-footer">
             <small className="text-muted">Parabéns por escolher adotar!</small>
           </div>
@@ -125,8 +189,9 @@ export default function Home() {
       </section>
 
       <p className="p2">
-        Algumas ONGs e protetores parceiros podem solicitar uma taxa no momento da adoção para auxílio de
-        custos. Essa cobrança é realizada diretamente entre adotante e ONG/protetor parceiro.
+        Algumas ONGs e protetores parceiros podem solicitar uma taxa no momento
+        da adoção para auxílio de custos. Essa cobrança é realizada diretamente
+        entre adotante e ONG/protetor parceiro.
       </p>
 
       <section className="alert alert-primary bloco-video" role="alert">
@@ -135,12 +200,16 @@ export default function Home() {
 
       <section className="pqadotar">
         <ol>
-          <li>Salva vidas: ao adotar, você dá uma nova chance de vida a um animal.</li>
+          <li>
+            Salva vidas: ao adotar, você dá uma nova chance de vida a um animal.
+          </li>
           <li>Combate o abandono e reduz animais em situação de rua.</li>
           <li>Animais adotados oferecem companheirismo e amor.</li>
           <li>A adoção costuma ter custo menor que a compra de animais.</li>
           <li>Ajuda a controlar a superpopulação de animais.</li>
-          <li>Incentiva adoção consciente e combate criadores irresponsáveis.</li>
+          <li>
+            Incentiva adoção consciente e combate criadores irresponsáveis.
+          </li>
           <li>Ter um pet pode ajudar a diminuir estresse e ansiedade.</li>
         </ol>
 

@@ -11,6 +11,7 @@ import Home from "../pages/Home";
 import LoginPage from "../pages/LoginPage";
 import NotFound from "../pages/NotFound";
 import Pets from "../pages/Pets";
+import PedidoAdocao from "../pages/PedidoAdocao";
 import VolunteerForm from "../pages/VolunteerForm";
 import VolunteerIntro from "../pages/VolunteerIntro";
 import VolunteerSuccess from "../pages/VolunteerSuccess";
@@ -40,6 +41,15 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute>
               <AddPet />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/pedidos-adocao"
+          element={
+            <ProtectedRoute>
+              <PedidoAdocao />
             </ProtectedRoute>
           }
         />

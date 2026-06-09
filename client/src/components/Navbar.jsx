@@ -44,10 +44,19 @@ export default function Navbar() {
             >
               Institucional
             </a>
-            <div className="dropdown-menu" aria-labelledby="navbarDropdownInstitucional">
+
+            <div
+              className="dropdown-menu"
+              aria-labelledby="navbarDropdownInstitucional"
+            >
               <NavLink className="dropdown-item" to="/add-pet">
                 Adicionar pet
               </NavLink>
+
+              <NavLink className="dropdown-item" to="/pedidos-adocao">
+                Pedidos de Adoção
+              </NavLink>
+
               <a
                 className="dropdown-item"
                 href="https://observatorio3setor.org.br/lista-conheca-7-ongs-brasileiras-que-atuam-na-protecao-de-animais/"
@@ -95,13 +104,22 @@ export default function Navbar() {
           </NavLink>
 
           {!usuario ? (
-            <NavLink className="btn btn-login" to="/login" title="Entrar no sistema">
+            <NavLink
+              className="btn btn-login"
+              to="/login"
+              title="Entrar no sistema"
+            >
               🔐 Login
             </NavLink>
           ) : (
             <>
               <span className="usuario-logado">Olá, {usuario.email}</span>
-              <button type="button" className="btn btn-outline-danger" onClick={handleLogout}>
+
+              <button
+                type="button"
+                className="btn btn-outline-danger"
+                onClick={handleLogout}
+              >
                 Sair
               </button>
             </>
