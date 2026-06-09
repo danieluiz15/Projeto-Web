@@ -10,9 +10,10 @@ app.use(cors({
     
 app.use(express.json());
 
+// Requisições para adição de pets para adoção
 
 app.get("/pet_adocao", (req, res) => {
-  let SQL = "SELECT * FROM pet_adocao";
+  const SQL = "SELECT * FROM pet_adocao";
   db.query(SQL, (err, result) => {
     if (err) {
       console.error(err);
@@ -63,6 +64,63 @@ app.put("/pet_adocao/:id", (req, res) => {
     }
   });
 });  
+
+// Requisições para a adoção de pets
+
+app.get("/adocao", (req,res)=>{
+  const SQL = "SELECT * FROM adocao";
+
+  db.query(SQL, (err,result)=>{
+    if(err){
+      console.error(err);
+      res.status(500).json({ error: "Erro ao buscar adoções"});
+    } else{
+      res.status(201).json({result});
+    }
+  });
+});
+
+app.post("/adocao", (req,res)=>{
+  const {petID, nome, sobrenome, endereco, endereco2, cidade, estado, cep, motivo} = req.body;
+  const SQL = "INSERT INTO adocao(id, nome, sobrenome, endereco, endereco_aux, cidade, estado, cep, motivo, petID) VALUES (null, ?,?,?,?,?,?,?,?,?)";
+
+  db.query(SQL, [nome, sobrenome, endereco, endereco2, cidade, estado, cep, petID], (err, result)=>{
+    if(err){
+      console.log(err);
+      res.status(500).json({ error: "Erro ao registrar adoção"});
+    } 
+    res.status(201).json({message: "Adoção registrada com sucesso"});
+  });
+});
+
+app.put("/adocao/:id", (req, res)=>{
+  const id = req.params.id;
+  const {nome, sobrenome, endereco, endereco2, cidade, estado, cep} = req.body;
+  const SQL = "UPDATE adocao SET nome = ?, sobrenome = ?, endereco = ?, endereco_aux = ?, cidade = ?, estado = ?, cep = ? WHERE id = ?";
+
+  db.query(SQL, [nome, sobrenome, endereco, endereco2, cidade, estado, cep, id], (err, result)=>{
+    if (err){
+      console.log(err);
+      res.status(500).json({error: "Erro ao editar adoção"});
+    } else {
+      res.status(201).json({message: "Adoção editada com sucesso"});
+    }
+  });
+});
+
+app.delete("/adocao/:id", (req, res)=>{
+  const id = req.params.id;
+  const SQL = "DELETE FROM adocao WHERE id = ?"
+
+  db.query(SQL, [id], (err, result)=>{
+    if (err){
+      console.log(err);
+      res.status(500).json({error: "Erro ao excluir adoção"});
+    } else {
+      res.status(201).json({message: "Adoção deletada com sucesso"});
+    }
+  })
+});
 
 app.listen(3001,()=>{
   console.log("rodando servidor");

@@ -23,3 +23,17 @@ INSERT INTO pet_adocao (nome, tipo, idade, descricao) VALUES
 
 INSERT INTO pet_adocao (nome, tipo, idade, descricao) VALUES
 ('Luna', 'Outro', 1.25, 'Coelha branca muito ativa, perfeita para famílias com crianças.');
+
+CREATE TABLE adocao(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(60) NOT NULL,
+    sobrenome VARCHAR(60) NOT NULL,
+    endereco VARCHAR(100) NOT NULL,
+    endereco_aux VARCHAR(100) NOT NULL,
+    cidade VARCHAR(30) NOT NULL,
+    estado ENUM("MJ", "DF", "SP", "RJ") NOT NULL,
+    cep VARCHAR(9) NOT NULL,
+    petID INT NOT NULL,
+    motivo VARCHAR(255) NOT NULL,
+    FOREIGN KEY (petID) REFERENCES pet_adocao(id)
+);
