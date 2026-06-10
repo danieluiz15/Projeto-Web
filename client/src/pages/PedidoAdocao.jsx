@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
+import axios from "axios";
 
 const estados = [
   "DF",
@@ -9,6 +10,7 @@ const estados = [
 ];
 
 function PedidoAdocao() {
+  // Retirar ao inplementar o back-end completo, junto as as partes que utilizam isso
   const [pedidos, setPedidos] = useState([
     {
       id: 1,
@@ -35,6 +37,7 @@ function PedidoAdocao() {
       pet: "Mimi",
     },
   ]);
+  // 
 
   const [pedidoEditando, setPedidoEditando] = useState(null);
 
@@ -91,6 +94,8 @@ function PedidoAdocao() {
       return;
     }
 
+    // Retirar ao inplementar o back-end completo
+
     setPedidos(
       pedidos.map((pedido) =>
         pedido.id === pedidoEditando.id
@@ -107,6 +112,20 @@ function PedidoAdocao() {
           : pedido
       )
     );
+    // 
+    // Atualmente dá erro pela falta de exibição de dados que combinam com os presentes no banco de dados
+    axios.put(`http://localhost:3001/adocao/${pedidoEditando.id}`,{
+      nome: formEdicao.nome,
+      sobrenome: formEdicao.sobrenome,
+      endereco: formEdicao.endereco,
+      endereco2: formEdicao.enderecoAuxiliar,
+      cidade: formEdicao.cidade,
+      estado: formEdicao.estado,
+      cep: formEdicao.cep
+    }).then((response) => {
+      console.log(response);
+      alert("Pedido de adoção editado com sucesso");
+    })
 
     fecharModalEdicao();
   }

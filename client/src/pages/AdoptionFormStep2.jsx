@@ -8,7 +8,6 @@ export default function AdoptionFormStep2() {
   const petId = useLocation().state.pet;
   const [motivo, setMotivo] = useState("");
   const navigate = useNavigate();
-  console.log(dadosSolicitante, petId, motivo, typeof(motivo));
 
   function handleChangeValues(event) {
     setMotivo(event.target.value);

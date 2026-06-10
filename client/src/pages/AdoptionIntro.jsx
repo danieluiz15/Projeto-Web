@@ -4,7 +4,6 @@ import { useLocation } from "react-router-dom";
 
 export default function AdoptionIntro() {
   const petID = useLocation().state;
-  console.log(petID);
   return (
     <>
       <Navbar />

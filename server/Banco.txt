@@ -37,3 +37,17 @@ CREATE TABLE adocao(
     motivo VARCHAR(255) NOT NULL,
     FOREIGN KEY (petID) REFERENCES pet_adocao(id)
 );
+
+# Dados de teste para a utilização no prejeto
+
+INSERT INTO adocao (nome, sobrenome, endereco, endereco_aux, cidade, estado, cep, petID, motivo) VALUES
+('Ana', 'Silva', 'Rua das Flores, 123', 'Apto 101', 'Brasília', 'DF', '70000-000', 1, 'Sempre quis um cachorro companheiro para caminhadas diárias.');
+
+INSERT INTO adocao (nome, sobrenome, endereco, endereco_aux, cidade, estado, cep, petID, motivo) VALUES
+('Carlos', 'Oliveira', 'Av. Central, 456', 'Casa', 'São Paulo', 'SP', '01000-000', 2, 'Procuro um gato tranquilo para fazer companhia em casa.');
+
+INSERT INTO adocao (nome, sobrenome, endereco, endereco_aux, cidade, estado, cep, petID, motivo) VALUES
+('Mariana', 'Souza', 'Rua Verde, 789', 'Bloco B', 'Rio de Janeiro', 'RJ', '20000-000', 3, 'Quero um pet para proteção e companhia da família.');
+
+INSERT INTO adocao (nome, sobrenome, endereco, endereco_aux, cidade, estado, cep, petID, motivo) VALUES
+('João', 'Pereira', 'Quadra 10, Lote 5', 'Casa 2', 'Brasília', 'DF', '71000-000', 4, 'Tenho espaço adequado e gosto de cuidar de animais diferentes.');

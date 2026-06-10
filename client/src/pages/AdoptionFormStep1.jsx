@@ -32,7 +32,6 @@ export default function AdoptionFormStep1() {
         return "Informe um CEP válido"
     }
     return "";
-
   }
 
   function handleChangeValues(value){
