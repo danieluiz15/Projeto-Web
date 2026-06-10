@@ -84,7 +84,7 @@ app.post("/adocao", (req,res)=>{
   const {petID, nome, sobrenome, endereco, endereco2, cidade, estado, cep, motivo} = req.body;
   const SQL = "INSERT INTO adocao(id, nome, sobrenome, endereco, endereco_aux, cidade, estado, cep, motivo, petID) VALUES (null, ?,?,?,?,?,?,?,?,?)";
 
-  db.query(SQL, [nome, sobrenome, endereco, endereco2, cidade, estado, cep, petID], (err, result)=>{
+  db.query(SQL, [nome, sobrenome, endereco, endereco2, cidade, estado, cep, motivo, petID], (err, result)=>{
     if(err){
       console.log(err);
       res.status(500).json({ error: "Erro ao registrar adoção"});

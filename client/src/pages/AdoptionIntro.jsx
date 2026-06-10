@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import { useLocation } from "react-router-dom";
 
 export default function AdoptionIntro() {
+  const petID = useLocation().state;
+  console.log(petID);
   return (
     <>
       <Navbar />
@@ -26,7 +29,7 @@ export default function AdoptionIntro() {
           </p>
         </div>
 
-        <Link className="but link-botao" to="/adocao/form1">
+        <Link className="but link-botao" to="/adocao/form1" state={petID}>
           Confirmar e preencher formulário
         </Link>
       </main>

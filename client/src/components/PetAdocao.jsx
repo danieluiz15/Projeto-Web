@@ -11,7 +11,7 @@ export default function PetAdocao ({pet, onEdit, onDelete}){
             <p>
                 Mais sobre mim: {pet.descricao}
             </p>
-            <Link to="/declaracao" className="btn btn-info">
+            <Link to="/declaracao" className="btn btn-info" state={pet.id}>
                 Quero adotar
             </Link>
             <div class="d-flex justify-content-center" style={{marginTop: 1 + 'vh', columnGap: 2 + '%'}}> 
