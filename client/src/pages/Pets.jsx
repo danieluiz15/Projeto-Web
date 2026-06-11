@@ -48,18 +48,12 @@ export default function Pets() {
   }
 
   function deletarPet(id){
-    const index = dados.findIndex(pet => id === pet.id);
-
-    if(index === -1){
-      alert("Algo deu errado ao tentar excluir o pet, tente novamente");
-    }else{
       if(window.confirm("Deseja realmente excluir o pet da lista de adoção?")){
         Axios.delete(`http://localhost:3001/pet_adocao/${id}`);
         window.location.reload();
       }else{
         return "Operação cancelada"
       }
-    }
   }
 
   return (

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 
@@ -10,34 +10,17 @@ const estados = [
 ];
 
 function PedidoAdocao() {
-  // Retirar ao inplementar o back-end completo, junto as as partes que utilizam isso
-  const [pedidos, setPedidos] = useState([
-    {
-      id: 1,
-      nome: "Ana",
-      sobrenome: "Galati",
-      endereco: "Rua das Flores",
-      enderecoAuxiliar: "Casa 2",
-      cidade: "Brasília",
-      estado: "DF",
-      cep: "70000-000",
-      especie: "Cachorro",
-      pet: "Thor",
-    },
-    {
-      id: 2,
-      nome: "João",
-      sobrenome: "Silva",
-      endereco: "Avenida Central",
-      enderecoAuxiliar: "Apartamento 304",
-      cidade: "Goiânia",
-      estado: "GO",
-      cep: "74000-000",
-      especie: "Gato",
-      pet: "Mimi",
-    },
-  ]);
-  // 
+  const [pedidos, setPedidos] = useState([]);
+
+  useEffect(()=>{
+    fetch('http://localhost:3001/adocao')
+      .then((response)=> response.json())
+      .then((data)=>{
+        setPedidos(data.result);
+      })
+      .catch((error)=> console.log("Erro ao buscar dados: ", error));
+  }, []);
+  console.log(pedidos);
 
   const [pedidoEditando, setPedidoEditando] = useState(null);
 
@@ -45,7 +28,7 @@ function PedidoAdocao() {
     nome: "",
     sobrenome: "",
     endereco: "",
-    enderecoAuxiliar: "",
+    endereco_aux: "",
     cidade: "",
     estado: "",
     cep: "",
@@ -53,6 +36,11 @@ function PedidoAdocao() {
 
   function excluirPedido(id) {
     setPedidos(pedidos.filter((pedido) => pedido.id !== id));
+    if(window.confirm("Deseja mesmo excluir o pedido de adoção?")){
+      axios.delete(`http://localhost:3001/adocao/${id}`);
+    }else{
+      return "Operação cancelada";
+    }
   }
 
   function abrirModalEdicao(pedido) {
@@ -62,7 +50,7 @@ function PedidoAdocao() {
       nome: pedido.nome,
       sobrenome: pedido.sobrenome,
       endereco: pedido.endereco,
-      enderecoAuxiliar: pedido.enderecoAuxiliar,
+      endereco_aux: pedido.endereco_aux,
       cidade: pedido.cidade,
       estado: pedido.estado,
       cep: pedido.cep,
@@ -85,40 +73,18 @@ function PedidoAdocao() {
       !formEdicao.nome ||
       !formEdicao.sobrenome ||
       !formEdicao.endereco ||
-      !formEdicao.enderecoAuxiliar ||
       !formEdicao.cidade ||
       !formEdicao.estado ||
       !formEdicao.cep
     ) {
-      alert("Todos os campos da pessoa solicitante precisam ser preenchidos.");
+      alert("Os campos da pessoa solicitante precisam ser preenchidos(exceto pelo endereço auxiliar).");
       return;
     }
-
-    // Retirar ao inplementar o back-end completo
-
-    setPedidos(
-      pedidos.map((pedido) =>
-        pedido.id === pedidoEditando.id
-          ? {
-              ...pedido,
-              nome: formEdicao.nome,
-              sobrenome: formEdicao.sobrenome,
-              endereco: formEdicao.endereco,
-              enderecoAuxiliar: formEdicao.enderecoAuxiliar,
-              cidade: formEdicao.cidade,
-              estado: formEdicao.estado,
-              cep: formEdicao.cep,
-            }
-          : pedido
-      )
-    );
-    // 
-    // Atualmente dá erro pela falta de exibição de dados que combinam com os presentes no banco de dados
     axios.put(`http://localhost:3001/adocao/${pedidoEditando.id}`,{
       nome: formEdicao.nome,
       sobrenome: formEdicao.sobrenome,
       endereco: formEdicao.endereco,
-      endereco2: formEdicao.enderecoAuxiliar,
+      endereco2: formEdicao.endereco_aux,
       cidade: formEdicao.cidade,
       estado: formEdicao.estado,
       cep: formEdicao.cep
@@ -152,118 +118,122 @@ function PedidoAdocao() {
           Pedidos de Adoção
         </h2>
 
-        {pedidos.map((pedido) => (
-          <div
-            key={pedido.id}
-            style={{
-              border: "1px solid #ccc",
-              padding: "40px",
-              marginBottom: "35px",
-              borderRadius: "16px",
-              width: "100%",
-              minHeight: "420px",
-              backgroundColor: "#fff",
-              boxShadow: "0 4px 14px rgba(0, 0, 0, 0.12)",
-              boxSizing: "border-box",
-            }}
-          >
-            <h3
-              style={{
-                fontSize: "28px",
-                marginBottom: "25px",
-              }}
-            >
-              Dados do Solicitante
-            </h3>
-
+        {pedidos.length > 0 ?(
+          pedidos.map((pedido) => (
             <div
+              key={pedido.id}
               style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "12px 35px",
-                fontSize: "22px",
+                border: "1px solid #ccc",
+                padding: "40px",
+                marginBottom: "35px",
+                borderRadius: "16px",
+                width: "100%",
+                minHeight: "420px",
+                backgroundColor: "#fff",
+                boxShadow: "0 4px 14px rgba(0, 0, 0, 0.12)",
+                boxSizing: "border-box",
               }}
             >
-              <p>
-                <strong>Nome:</strong> {pedido.nome}
-              </p>
-
-              <p>
-                <strong>Sobrenome:</strong> {pedido.sobrenome}
-              </p>
-
-              <p>
-                <strong>Endereço:</strong> {pedido.endereco}
-              </p>
-
-              <p>
-                <strong>Endereço auxiliar:</strong> {pedido.enderecoAuxiliar}
-              </p>
-
-              <p>
-                <strong>Cidade:</strong> {pedido.cidade}
-              </p>
-
-              <p>
-                <strong>Estado:</strong> {pedido.estado}
-              </p>
-
-              <p>
-                <strong>CEP:</strong> {pedido.cep}
-              </p>
-            </div>
-
-            <hr style={{ margin: "30px 0" }} />
-
-            <h3
-              style={{
-                fontSize: "28px",
-                marginBottom: "20px",
-              }}
-            >
-              Dados do Pet
-            </h3>
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "12px 35px",
-                fontSize: "22px",
-              }}
-            >
-              <p>
-                <strong>Espécie:</strong> {pedido.especie}
-              </p>
-
-              <p>
-                <strong>Pet desejado:</strong> {pedido.pet}
-              </p>
-            </div>
-
-            <div
-              style={{
-                marginTop: "30px",
-                display: "flex",
-                gap: "15px",
-              }}
-            >
-              <button
-                onClick={() => abrirModalEdicao(pedido)}
-                style={estiloBotao}
+              <h3
+                style={{
+                  fontSize: "28px",
+                  marginBottom: "25px",
+                }}
               >
-                Editar solicitante
-              </button>
+                Dados do Solicitante
+              </h3>
 
-              <button
-                onClick={() => excluirPedido(pedido.id)}
-                style={estiloBotaoExcluir}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: "12px 35px",
+                  fontSize: "22px",
+                }}
               >
-                Excluir
-              </button>
+                <p>
+                  <strong>Nome:</strong> {pedido.nome}
+                </p>
+
+                <p>
+                  <strong>Sobrenome:</strong> {pedido.sobrenome}
+                </p>
+
+                <p>
+                  <strong>Endereço:</strong> {pedido.endereco}
+                </p>
+
+                <p>
+                  <strong>Endereço auxiliar:</strong> {pedido.endereco_aux}
+                </p>
+
+                <p>
+                  <strong>Cidade:</strong> {pedido.cidade}
+                </p>
+
+                <p>
+                  <strong>Estado:</strong> {pedido.estado}
+                </p>
+
+                <p>
+                  <strong>CEP:</strong> {pedido.cep}
+                </p>
+              </div>
+
+              <hr style={{ margin: "30px 0" }} />
+
+              <h3
+                style={{
+                  fontSize: "28px",
+                  marginBottom: "20px",
+                }}
+              >
+                Dados do Pet
+              </h3>
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: "12px 35px",
+                  fontSize: "22px",
+                }}
+              >
+                <p>
+                  <strong>Espécie:</strong> {pedido.especie}
+                </p>
+
+                <p>
+                  <strong>Pet desejado:</strong> {pedido.pet}
+                </p>
+              </div>
+
+              <div
+                style={{
+                  marginTop: "30px",
+                  display: "flex",
+                  gap: "15px",
+                }}
+              >
+                <button
+                  onClick={() => abrirModalEdicao(pedido)}
+                  style={estiloBotao}
+                >
+                  Editar solicitante
+                </button>
+
+                <button
+                  onClick={() => excluirPedido(pedido.id)}
+                  style={estiloBotaoExcluir}
+                >
+                  Excluir
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+        ))
+      ): (
+        <p>Nenhum pedido de adoção registrado</p>
+      )}
 
         {pedidoEditando && (
           <div
@@ -346,9 +316,9 @@ function PedidoAdocao() {
                   <strong>Endereço auxiliar:</strong>
                   <input
                     type="text"
-                    value={formEdicao.enderecoAuxiliar}
+                    value={formEdicao.endereco_aux}
                     onChange={(e) =>
-                      atualizarCampo("enderecoAuxiliar", e.target.value)
+                      atualizarCampo("endereco_aux", e.target.value)
                     }
                     style={estiloInput}
                   />
