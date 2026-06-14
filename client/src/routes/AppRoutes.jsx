@@ -15,6 +15,7 @@ import PedidoAdocao from "../pages/PedidoAdocao";
 import VolunteerForm from "../pages/VolunteerForm";
 import VolunteerIntro from "../pages/VolunteerIntro";
 import VolunteerSuccess from "../pages/VolunteerSuccess";
+import Relatorio from "../pages/Relatorio";
 
 export default function AppRoutes() {
   return (
@@ -97,6 +98,11 @@ export default function AppRoutes() {
               <VolunteerSuccess />
             </ProtectedRoute>
           }
+        />
+
+        <Route
+          path="/relatorio"
+          element={<Relatorio />}
         />
 
         <Route path="*" element={<NotFound />} />
