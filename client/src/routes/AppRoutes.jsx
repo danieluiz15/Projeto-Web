@@ -12,9 +12,6 @@ import LoginPage from "../pages/LoginPage";
 import NotFound from "../pages/NotFound";
 import Pets from "../pages/Pets";
 import PedidoAdocao from "../pages/PedidoAdocao";
-import VolunteerForm from "../pages/VolunteerForm";
-import VolunteerIntro from "../pages/VolunteerIntro";
-import VolunteerSuccess from "../pages/VolunteerSuccess";
 import Relatorio from "../pages/Relatorio";
 
 export default function AppRoutes() {
@@ -26,7 +23,6 @@ export default function AppRoutes() {
         <Route path="/pets" element={<Pets />} />
         <Route path="/faq" element={<Faq />} />
         <Route path="/declaracao" element={<AdoptionIntro />} />
-        <Route path="/seja-parceiro" element={<VolunteerIntro />} />
 
         <Route
           path="/dashboard"
@@ -78,24 +74,6 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute>
               <AdoptionSuccess />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/voluntario"
-          element={
-            <ProtectedRoute>
-              <VolunteerForm />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/voluntario/finalizado"
-          element={
-            <ProtectedRoute>
-              <VolunteerSuccess />
             </ProtectedRoute>
           }
         />
