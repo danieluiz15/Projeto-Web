@@ -99,10 +99,6 @@ export default function Navbar() {
             Quero adotar
           </NavLink>
 
-          <NavLink className="btn btn-outline-warning" to="/seja-parceiro">
-            Seja voluntário
-          </NavLink>
-
           {!usuario ? (
             <NavLink
               className="btn btn-login"
