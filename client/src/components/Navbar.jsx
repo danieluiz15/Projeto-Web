@@ -32,41 +32,43 @@ export default function Navbar() {
 
       <div className="collapse navbar-collapse" id="conteudoNavbarSuportado">
         <ul className="navbar-nav mr-auto">
-          <li className="nav-item dropdown">
-            <a
-              className="nav-link dropdown-toggle"
-              href="#institucional"
-              id="navbarDropdownInstitucional"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Institucional
-            </a>
-
-            <div
-              className="dropdown-menu"
-              aria-labelledby="navbarDropdownInstitucional"
-            >
-              <NavLink className="dropdown-item" to="/add-pet">
-                Adicionar pet
-              </NavLink>
-
-              <NavLink className="dropdown-item" to="/pedidos-adocao">
-                Pedidos de Adoção
-              </NavLink>
-
+          {usuario && (
+            <li className="nav-item dropdown">
               <a
-                className="dropdown-item"
-                href="https://observatorio3setor.org.br/lista-conheca-7-ongs-brasileiras-que-atuam-na-protecao-de-animais/"
-                target="_blank"
-                rel="noreferrer"
+                className="nav-link dropdown-toggle"
+                href="#institucional"
+                id="navbarDropdownInstitucional"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
               >
-                Projetos sociais
+                Institucional
               </a>
-            </div>
-          </li>
+
+              <div
+                className="dropdown-menu"
+                aria-labelledby="navbarDropdownInstitucional"
+              >
+                <NavLink className="dropdown-item" to="/add-pet">
+                  Adicionar pet
+                </NavLink>
+
+                <NavLink className="dropdown-item" to="/pedidos-adocao">
+                  Pedidos de Adoção
+                </NavLink>
+
+                <a
+                  className="dropdown-item"
+                  href="https://observatorio3setor.org.br/lista-conheca-7-ongs-brasileiras-que-atuam-na-protecao-de-animais/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Projetos sociais
+                </a>
+              </div>
+            </li>
+          )}
 
           <li className="nav-item">
             <a
@@ -95,9 +97,11 @@ export default function Navbar() {
         </ul>
 
         <div className="navbar-actions">
-          <NavLink className="btn btn-outline-info" to="/pets">
-            Quero adotar
-          </NavLink>
+          {usuario && (
+            <NavLink className="btn btn-outline-info" to="/pets">
+              Quero adotar
+            </NavLink>
+          )}
 
           {!usuario ? (
             <NavLink
