@@ -22,7 +22,6 @@ const imagensDisponiveis = [
 
 export default function Pets() {
   const [dados, setDados] = useState([]);
-  const [pets, setPets] = useState([]);
 
   useEffect(()=>{
     fetch('http://localhost:3001/pet_adocao')
@@ -30,12 +29,6 @@ export default function Pets() {
       .then((data)=>{
         setDados(data);
       })
-      .catch((error)=> console.log("Erro ao buscar dados: ", error));
-      fetch('http://localhost:3001/pet_adocao')
-        .then((response)=> response.json())
-        .then((data)=>{
-          setPets(data);
-        })
       .catch((error)=> console.log("Erro ao buscar dados: ", error));
   }, []);
 
