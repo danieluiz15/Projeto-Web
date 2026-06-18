@@ -164,16 +164,44 @@ describe("Integração da API com MySQL", () => {
   );
 });
 
-test("DELETE /pet_adocao/:id remove um pet do banco", async () => {
+test("GET /adocao retorna pedidos de adoção cadastrados", async () => {
   await resetTables();
-  const pet = await seedPet({ nome: "Pet para Excluir" });
 
-  const response = await request(app).delete(`/pet_adocao/${pet.id}`);
+  const pet = await seedPet({
+    nome: "Nina",
+    tipo: "Gato",
+    idade: 2,
+    descricao: "Pet para teste de pedido de adoção",
+  });
+
+  await request(app)
+    .post("/adocao")
+    .send({
+      nome: "Carlos",
+      sobrenome: "Oliveira",
+      endereco: "Rua das Flores, 123",
+      endereco2: "Apartamento 12",
+      cidade: "Brasília",
+      estado: "DF",
+      cep: "70000-001",
+      motivo: "Tenho espaço e tempo para cuidar do animal",
+      petID: pet.id,
+    });
+
+  const response = await request(app).get("/adocao");
 
   expect([200, 201]).toContain(response.status);
-
-  const rows = await query("SELECT * FROM pet_adocao WHERE id = ?", [pet.id]);
-  expect(rows).toHaveLength(0);
+  expect(Array.isArray(response.body.result)).toBe(true);
+  expect(response.body.result).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        nome: "Carlos",
+        sobrenome: "Oliveira",
+        cidade: "Brasília",
+        petID: pet.id,
+      }),
+    ])
+  );
 });
 
 test("POST /adocao cria um pedido de adoção vinculado a um pet", async () => {
@@ -208,8 +236,30 @@ test("POST /adocao cria um pedido de adoção vinculado a um pet", async () => {
 
 test("PUT /adocao/:id atualiza os dados de um pedido de adoção", async () => {
   await resetTables();
-  const pet = await seedPet();
-  const pedido = await seedAdocao(pet.id, { nome: "Mariana", cidade: "Brasília" });
+
+  const pet = await seedPet({
+    nome: "Thor",
+    tipo: "Cachorro",
+    idade: 3,
+    descricao: "Pet para teste de edição de adoção",
+  });
+
+  await request(app)
+    .post("/adocao")
+    .send({
+      nome: "Mariana",
+      sobrenome: "Silva",
+      endereco: "Rua A, 10",
+      endereco2: "Casa",
+      cidade: "Brasília",
+      estado: "DF",
+      cep: "70000-000",
+      motivo: "Quero adotar com responsabilidade",
+      petID: pet.id,
+    });
+
+  const pedidos = await query("SELECT * FROM adocao WHERE petID = ?", [pet.id]);
+  const pedido = pedidos[0];
 
   const response = await request(app)
     .put(`/adocao/${pedido.id}`)
@@ -226,6 +276,7 @@ test("PUT /adocao/:id atualiza os dados de um pedido de adoção", async () => {
   expect([200, 201]).toContain(response.status);
 
   const rows = await query("SELECT * FROM adocao WHERE id = ?", [pedido.id]);
+
   expect(rows[0].nome).toBe("Mariana Atualizada");
   expect(rows[0].sobrenome).toBe("Souza");
   expect(rows[0].cidade).toBe("Taguatinga");
