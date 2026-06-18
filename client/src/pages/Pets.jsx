@@ -5,6 +5,7 @@ import Axios from "axios";
 
 export default function Pets() {
   const [dados, setDados] = useState([]);
+  const [pets, setPets] = useState([]);
 
   useEffect(()=>{
     fetch('http://localhost:3001/pet_adocao')
@@ -12,6 +13,12 @@ export default function Pets() {
       .then((data)=>{
         setDados(data);
       })
+      .catch((error)=> console.log("Erro ao buscar dados: ", error));
+      fetch('http://localhost:3001/pet_adocao')
+        .then((response)=> response.json())
+        .then((data)=>{
+          setPets(data);
+        })
       .catch((error)=> console.log("Erro ao buscar dados: ", error));
   }, []);
 
@@ -48,13 +55,28 @@ export default function Pets() {
   }
 
   function deletarPet(id){
-      if(window.confirm("Deseja realmente excluir o pet da lista de adoção?")){
-        Axios.delete(`http://localhost:3001/pet_adocao/${id}`);
-        alert("Pet excluido com sucesso");
-        window.location.reload();
-      }else{
-        return "Operação cancelada"
-      }
+    if(window.confirm("Deseja realmente excluir o pet da lista de adoção?")){
+      Axios.delete(`http://localhost:3001/pet_adocao/${id}`)
+        .then((response) => {
+          alert("Pet excluído com sucesso");
+          window.location.reload();
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 400) {
+            // Erro de validação (pet com pedidos de adoção)
+            alert(error.response.data.error);
+          } else if (error.response) {
+            // Outro erro do servidor
+            alert(error.response.data.error || "Erro ao excluir pet");
+          } else {
+            // Erro de conexão
+            alert("Erro ao conectar com o servidor");
+          }
+          console.log(error);
+        });
+    } else {
+      return "Operação cancelada";
+    }
   }
 
   return (

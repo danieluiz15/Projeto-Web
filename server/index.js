@@ -25,15 +25,33 @@ app.get("/pet_adocao", (req, res) => {
 
 app.delete("/pet_adocao/:id", (req, res) => {
   const petId = req.params.id;
-  const SQL = "DELETE FROM pet_adocao WHERE id = ?";
-
-  db.query(SQL, [petId], (err, result) => {
+  
+  // Primeiro, verifica se há pedidos de adoção para este pet
+  const checkSQL = "SELECT COUNT(*) as count FROM adocao WHERE petID = ?";
+  
+  db.query(checkSQL, [petId], (err, result) => {
     if (err) {
       console.error(err);
-      res.status(500).json({ error: "Erro ao excluir pet" });
-    } else {
-      res.status(201).json({ message: "Pet excluído com sucesso"});
+      return res.status(500).json({ error: "Erro ao verificar pedidos de adoção" });
     }
+    
+    // Se há pedidos de adoção, não permite deletar
+    if (result[0].count > 0) {
+      return res.status(400).json({ 
+        error: "Não é possível excluir este pet. Existem pedidos de adoção em andamento para ele.",
+        hasPendingAdoptions: true
+      });
+    }
+    
+    // Se não há pedidos, procede com a exclusão
+    const deleteSQL = "DELETE FROM pet_adocao WHERE id = ?";
+    db.query(deleteSQL, [petId], (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: "Erro ao excluir pet" });
+      }
+      res.status(200).json({ message: "Pet excluído com sucesso"});
+    });
   });
 });
 
