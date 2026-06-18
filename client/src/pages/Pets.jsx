@@ -50,6 +50,7 @@ export default function Pets() {
   function deletarPet(id){
       if(window.confirm("Deseja realmente excluir o pet da lista de adoção?")){
         Axios.delete(`http://localhost:3001/pet_adocao/${id}`);
+        alert("Pet excluido com sucesso");
         window.location.reload();
       }else{
         return "Operação cancelada"
