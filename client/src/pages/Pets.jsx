@@ -1,4 +1,4 @@
-import PetAdocao from "../components/PetAdocao";
+ import PetAdocao from "../components/PetAdocao";
 import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
 import Axios from "axios";

@@ -1,9 +1,22 @@
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import { useLocation } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 export default function AdoptionIntro() {
-  const petID = useLocation().state;
+  const { usuario } = useContext(AuthContext);
+  const location = useLocation();
+  const petID = location.state;
+  const navigate = useNavigate();
+
+  function handleConfirm() {
+    if (usuario) {
+      navigate("/adocao/form1", { state: petID });
+    } else {
+      navigate("/login", { state: { from: "/adocao/form1", petID } });
+    }
+  }
+
   return (
     <>
       <Navbar />
@@ -28,9 +41,13 @@ export default function AdoptionIntro() {
           </p>
         </div>
 
-        <Link className="but link-botao" to="/adocao/form1" state={petID}>
+        <button
+          type="button"
+          className="but link-botao"
+          onClick={handleConfirm}
+        >
           Confirmar e preencher formulário
-        </Link>
+        </button>
       </main>
     </>
   );

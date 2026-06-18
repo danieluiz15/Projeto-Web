@@ -1,10 +1,13 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 
 export default function Login() {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || "/dashboard";
+  const petID = location.state?.petID;
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
@@ -24,7 +27,7 @@ export default function Login() {
       return;
     }
 
-    navigate("/dashboard");
+    navigate(from, { state: petID });
   }
 
   return (

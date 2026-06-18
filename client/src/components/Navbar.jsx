@@ -97,11 +97,9 @@ export default function Navbar() {
         </ul>
 
         <div className="navbar-actions">
-          {usuario && (
-            <NavLink className="btn btn-outline-info" to="/pets">
-              Quero adotar
-            </NavLink>
-          )}
+          <NavLink className="btn btn-outline-info" to="/pets">
+            Quero adotar
+          </NavLink>
 
           {!usuario ? (
             <NavLink
