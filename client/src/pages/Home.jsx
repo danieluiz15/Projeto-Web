@@ -33,6 +33,10 @@ export default function Home() {
               Pedidos de Adoção
             </Link>
 
+            <Link className="btn btn-light" to="/relatorio">
+              Relatório
+            </Link>
+
             <Link className="btn btn-outline-light" to="/add-pet">
               Adicionar pet
             </Link>
