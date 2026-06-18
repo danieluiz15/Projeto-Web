@@ -31,6 +31,26 @@ describe("Teste de sistema - Login", () => {
     cy.contains("Olá, aluno@web.com", { timeout: 10000 }).should("be.visible");
     cy.contains("Sair").should("be.visible");
   });
+
+  it("Não deve permitir login com e-mail e senha inválidos", () => {
+    cy.visit("http://localhost:3000/login");
+
+    cy.get('input[type="email"]', { timeout: 10000 })
+      .should("be.visible")
+      .type("usuarioerrado@email.com");
+
+    cy.get('input[type="password"]', { timeout: 10000 })
+      .should("be.visible")
+      .type("senhaerrada");
+
+    cy.contains("button", "Entrar").click();
+
+    cy.url().should("include", "/login");
+    cy.contains("Olá, aluno@web.com").should("not.exist");
+    cy.contains("Sair").should("not.exist");
+
+    cy.contains("Credenciais inválidas").should("exist");
+  });
 });
 
 describe("Teste de sistema - Cadastro de Pet", () => {
@@ -65,7 +85,7 @@ describe("Teste de sistema - Cadastro de Pet", () => {
     cy.contains("Cadastrar pet").should("be.visible");
   });
 
-  it("Deve cadastrar um pet pela interface", () => {
+  it("Deve cadastrar um pet pela interface com dados válidos", () => {
     fazerLogin();
     abrirAreaLogada();
 
@@ -77,6 +97,42 @@ describe("Teste de sistema - Cadastro de Pet", () => {
     cy.contains("Cachorro").should("be.visible");
     cy.contains("Vira-lata").should("be.visible");
     cy.contains("2").should("be.visible");
+  });
+
+  it("Não deve cadastrar um pet com campos obrigatórios em branco", () => {
+    fazerLogin();
+    abrirAreaLogada();
+
+    cy.get("tbody tr").then(($linhasAntes) => {
+      const quantidadeAntes = $linhasAntes.length;
+
+      cy.contains("button", "Cadastrar pet").should("be.visible").click();
+
+      cy.get("tbody tr").should("have.length", quantidadeAntes);
+    });
+  });
+
+  it("Não deve cadastrar pet sem preencher a espécie", () => {
+    fazerLogin();
+    abrirAreaLogada();
+
+    cy.get("tbody tr").then(($linhasAntes) => {
+      const quantidadeAntes = $linhasAntes.length;
+
+      cy.get("input:visible", { timeout: 10000 }).should(
+        "have.length.at.least",
+        4
+      );
+
+      cy.get("input:visible").eq(0).type("Totó");
+      cy.get("input:visible").eq(2).type("Vira-lata");
+      cy.get("input:visible").eq(3).type("2");
+
+      cy.contains("button", "Cadastrar pet").should("be.visible").click();
+
+      cy.get("tbody tr").should("have.length", quantidadeAntes);
+      cy.contains("Totó").should("not.exist");
+    });
   });
 
   it("Deve exibir a listagem de pets cadastrados", () => {
