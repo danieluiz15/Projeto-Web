@@ -14,32 +14,47 @@ function fazerLogin() {
   cy.contains("Olá, aluno@web.com", { timeout: 10000 }).should("be.visible");
 }
 
-describe("Teste de sistema - Login e Cadastro de Pet", () => {
+describe("Teste de sistema - Login", () => {
+  it("Deve realizar login com usuário demo", () => {
+    cy.visit("http://localhost:3000/login");
+
+    cy.get('input[type="email"]', { timeout: 10000 })
+      .should("be.visible")
+      .type("aluno@web.com");
+
+    cy.get('input[type="password"]', { timeout: 10000 })
+      .should("be.visible")
+      .type("123456");
+
+    cy.contains("button", "Entrar").click();
+
+    cy.contains("Olá, aluno@web.com", { timeout: 10000 }).should("be.visible");
+    cy.contains("Sair").should("be.visible");
+  });
+});
+
+describe("Teste de sistema - Cadastro de Pet", () => {
   function abrirAreaLogada() {
     cy.contains("Área logada", { timeout: 10000 })
       .should("be.visible")
       .click();
-  
+
     cy.contains("Gerenciamento de Pets", { timeout: 10000 }).should(
       "be.visible"
     );
   }
 
   function preencherCamposPet(nome, especie, raca, idade) {
-    cy.get("input:visible", { timeout: 10000 }).should("have.length.at.least", 4);
+    cy.get("input:visible", { timeout: 10000 }).should(
+      "have.length.at.least",
+      4
+    );
 
     cy.get("input:visible").eq(0).type(nome);
     cy.get("input:visible").eq(1).type(especie);
     cy.get("input:visible").eq(2).type(raca);
     cy.get("input:visible").eq(3).type(idade);
   }
-
-  it("Deve realizar login com usuário demo", () => {
-    fazerLogin();
-
-    cy.contains("Olá, aluno@web.com").should("be.visible");
-    cy.contains("Sair").should("be.visible");
-  });
 
   it("Deve acessar a área logada com o CRUD de pets", () => {
     fazerLogin();
@@ -56,9 +71,7 @@ describe("Teste de sistema - Login e Cadastro de Pet", () => {
 
     preencherCamposPet("Bolinha", "Cachorro", "Vira-lata", "2");
 
-    cy.contains("button", "Cadastrar pet")
-      .should("be.visible")
-      .click();
+    cy.contains("button", "Cadastrar pet").should("be.visible").click();
 
     cy.contains("Bolinha", { timeout: 10000 }).should("be.visible");
     cy.contains("Cachorro").should("be.visible");
@@ -84,9 +97,7 @@ describe("Teste de sistema - Login e Cadastro de Pet", () => {
     fazerLogin();
     abrirAreaLogada();
 
-    cy.contains("tr", "Luna")
-      .contains("Excluir")
-      .click();
+    cy.contains("tr", "Luna").contains("Excluir").click();
 
     cy.contains("Luna").should("not.exist");
   });
