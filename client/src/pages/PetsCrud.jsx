@@ -141,16 +141,6 @@ export default function PetsCrud() {
 
   return (
     <section className="cartao crud-card">
-      <div className="titulo-secao">
-        <div>
-          <h2>CRUD 1 - Pets</h2>
-          <p className="subtitulo">
-            Cadastro, listagem, edição e exclusão de pets.
-          </p>
-        </div>
-
-        <span className="etiqueta">Parte 2</span>
-      </div>
 
       {erro ? <div className="mensagem erro mensagem-visivel">{erro}</div> : null}
 

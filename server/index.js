@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const mysql = require('mysql2');
 const cors = require("cors");
 const db = require('./database');
 
@@ -87,9 +86,9 @@ app.post("/adocao", (req,res)=>{
   db.query(SQL, [nome, sobrenome, endereco, endereco2, cidade, estado, cep, motivo, petID], (err, result)=>{
     if(err){
       console.log(err);
-      res.status(500).json({ error: "Erro ao registrar adoção"});
+      return res.status(500).json({ error: "Erro ao registrar adoção"});
     } 
-    res.status(201).json({message: "Adoção registrada com sucesso"});
+    return res.status(201).json({message: "Adoção registrada com sucesso"});
   });
 });
 
@@ -122,8 +121,12 @@ app.delete("/adocao/:id", (req, res)=>{
   })
 });
 
-app.listen(3001,()=>{
-  console.log("rodando servidor");
-});
+if (require.main === module) {
+  app.listen(3001, () => {
+    console.log("rodando servidor");
+  });
+}
+
+module.exports = app;
 
 

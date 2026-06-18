@@ -11,6 +11,7 @@ const estados = [
 
 function PedidoAdocao() {
   const [pedidos, setPedidos] = useState([]);
+  const [pets, setPets] = useState([]);
 
   useEffect(()=>{
     fetch('http://localhost:3001/adocao')
@@ -19,9 +20,14 @@ function PedidoAdocao() {
         setPedidos(data.result);
       })
       .catch((error)=> console.log("Erro ao buscar dados: ", error));
+      fetch('http://localhost:3001/pet_adocao')
+        .then((response)=> response.json())
+        .then((data)=>{
+          setPets(data);
+        })
+      .catch((error)=> console.log("Erro ao buscar dados: ", error));
   }, []);
-  console.log(pedidos);
-
+  
   const [pedidoEditando, setPedidoEditando] = useState(null);
 
   const [formEdicao, setFormEdicao] = useState({
@@ -119,95 +125,102 @@ function PedidoAdocao() {
         </h2>
 
         {pedidos.length > 0 ?(
-          pedidos.map((pedido) => (
-            <div
-              key={pedido.id}
-              style={{
-                border: "1px solid #ccc",
-                padding: "40px",
-                marginBottom: "35px",
-                borderRadius: "16px",
-                width: "100%",
-                minHeight: "420px",
-                backgroundColor: "#fff",
-                boxShadow: "0 4px 14px rgba(0, 0, 0, 0.12)",
-                boxSizing: "border-box",
-              }}
-            >
-              <h3
-                style={{
-                  fontSize: "28px",
-                  marginBottom: "25px",
-                }}
-              >
-                Dados do Solicitante
-              </h3>
-
+          pedidos.map((pedido) => {
+            const pet = pets.find(
+              (p) => p.id === pedido.petID
+            );
+            return(
               <div
+                key={pedido.id}
                 style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: "12px 35px",
-                  fontSize: "22px",
+                  border: "1px solid #ccc",
+                  padding: "40px",
+                  marginBottom: "35px",
+                  borderRadius: "16px",
+                  width: "100%",
+                  minHeight: "420px",
+                  backgroundColor: "#fff",
+                  boxShadow: "0 4px 14px rgba(0, 0, 0, 0.12)",
+                  boxSizing: "border-box",
                 }}
               >
-                <p>
-                  <strong>Nome:</strong> {pedido.nome}
-                </p>
-
-                <p>
-                  <strong>Sobrenome:</strong> {pedido.sobrenome}
-                </p>
-
-                <p>
-                  <strong>Endereço:</strong> {pedido.endereco}
-                </p>
-
-                <p>
-                  <strong>Endereço auxiliar:</strong> {pedido.endereco_aux}
-                </p>
-
-                <p>
-                  <strong>Cidade:</strong> {pedido.cidade}
-                </p>
-
-                <p>
-                  <strong>Estado:</strong> {pedido.estado}
-                </p>
-
-                <p>
-                  <strong>CEP:</strong> {pedido.cep}
-                </p>
-              </div>
-
-              <hr style={{ margin: "30px 0" }} />
-
-              <h3
-                style={{
-                  fontSize: "28px",
-                  marginBottom: "20px",
-                }}
-              >
-                Dados do Pet
-              </h3>
-
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: "12px 35px",
-                  fontSize: "22px",
-                }}
-              >
-                <p>
-                  <strong>Espécie:</strong> {pedido.especie}
-                </p>
-
-                <p>
-                  <strong>Pet desejado:</strong> {pedido.pet}
-                </p>
-              </div>
-
+                <h3
+                  style={{
+                    fontSize: "28px",
+                    marginBottom: "25px",
+                  }}
+                >
+                  Dados do Solicitante
+                </h3>
+  
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: "12px 35px",
+                    fontSize: "22px",
+                  }}
+                >
+                  <p>
+                    <strong>Nome:</strong> {pedido.nome}
+                  </p>
+  
+                  <p>
+                    <strong>Sobrenome:</strong> {pedido.sobrenome}
+                  </p>
+  
+                  <p>
+                    <strong>Endereço:</strong> {pedido.endereco}
+                  </p>
+  
+                  <p>
+                    <strong>Endereço auxiliar:</strong> {pedido.endereco_aux}
+                  </p>
+  
+                  <p>
+                    <strong>Cidade:</strong> {pedido.cidade}
+                  </p>
+  
+                  <p>
+                    <strong>Estado:</strong> {pedido.estado}
+                  </p>
+  
+                  <p>
+                    <strong>CEP:</strong> {pedido.cep}
+                  </p>
+                </div>
+  
+                <hr style={{ margin: "30px 0" }} />
+  
+                <h3
+                  style={{
+                    fontSize: "28px",
+                    marginBottom: "20px",
+                  }}
+                >
+                  Dados do Pet
+                </h3>
+                  {pet ? (
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: "12px 35px",
+                    fontSize: "22px",
+                  }}
+                >
+                  <p>
+                    <strong>Espécie:</strong> {pet.tipo}
+                  </p>
+  
+                  <p>
+                    <strong>Pet desejado:</strong> {pet.nome}
+                  </p>
+                </div>
+  
+                  ):(
+                    <p>Carregando dados do pet</p>
+                  )}
               <div
                 style={{
                   marginTop: "30px",
@@ -230,7 +243,7 @@ function PedidoAdocao() {
                 </button>
               </div>
             </div>
-        ))
+          )})
       ): (
         <p>Nenhum pedido de adoção registrado</p>
       )}

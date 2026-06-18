@@ -9,6 +9,12 @@ node_modules/
 # testing
 /coverage
 
+# cypress
+cypress.config.js
+cypress/
+.fixtures
+.support
+
 # production
 /build
 
