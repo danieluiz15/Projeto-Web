@@ -127,6 +127,7 @@ describe("Teste de sistema - CRUD de pet para adoção", () => {
     cy.get('#tipo').select("Gato");
     cy.get('#idade').type("4.00");
     cy.get('#descricao').type("Gata independente, gosta de ficar em lugares altos e observar o ambiente.");
+    cy.get('#imagem').select("Will.png");
 
     cy.contains("button", "Adicionar Pet")
       .should("be.visible")
@@ -135,9 +136,34 @@ describe("Teste de sistema - CRUD de pet para adoção", () => {
           expect(alertText).to.contains('Pet cadastrado com sucesso!');
         });
       });
-
-
   });
+
+  it('Não deve cadastrar um pet sem informações', ()=>{
+    cy.contains("button", "Adicionar Pet")
+      .should("be.visible")
+      .click().then(()=>{
+        cy.on('window:alert', (alertText) =>{
+          expect(alertText).to.contains('Informe o nome do pet');
+        });
+      });
+  });
+
+  it('Não deve aceitar dados inválidos', () => {
+    cy.get('#nome').type('Bella');
+    cy.get('#tipo').select("Gato");
+    cy.get('#idade').type("vinte");
+    cy.get('#descricao').type("Gata independente, gosta de ficar em lugares altos e observar o ambiente.");
+    cy.get('#imagem').select("Will.png");
+
+    cy.contains("button", "Adicionar Pet")
+      .should("be.visible")
+      .click().then(()=>{
+        cy.on('window:alert', (alertText) =>{
+          expect(alertText).to.contains('Informe uma idade valida para o pet');
+        });
+      });
+    });
+  
 
   it('Deve exibir os pets cadastrados', () => {
 
