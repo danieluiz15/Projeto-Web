@@ -104,6 +104,7 @@ describe("Integração da API com MySQL", () => {
       tipo: "Gato",
       idade: 2,
       descricao: "Gata tranquila e sociável",
+      imagem: "Will.png",
     };
 
     const response = await request(app)
@@ -129,6 +130,7 @@ describe("Integração da API com MySQL", () => {
         tipo: "Gato",
         idade: 2,
         descricao: "Descrição atualizada",
+        imagem: "Mel.png",
       });
 
     expect(response.status).toBe(201);

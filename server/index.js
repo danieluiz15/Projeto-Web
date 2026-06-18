@@ -64,8 +64,11 @@ app.post("/pet_adocao",(req, res)=>{
   let SQL = "INSERT INTO pet_adocao(id,nome,tipo,idade,descricao,imagem) VALUES (null,?,?,?,?,?)";
   
   db.query(SQL,[nome,tipo, idade, descricao, imagem],(err, result)=>{
-    if (err) console.log(err);
-    res.status(201).json({ message: "Pet adicionado com sucesso"});
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Erro ao adicionar pet" });
+    }
+    return res.status(201).json({ message: "Pet adicionado com sucesso"});
   })
 });
 
