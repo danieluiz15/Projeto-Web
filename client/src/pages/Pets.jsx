@@ -3,6 +3,23 @@ import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
 import Axios from "axios";
 
+const imagensDisponiveis = [
+  "alex.png",
+  "bob.png",
+  "chavosa.png",
+  "Joao.png",
+  "joia.jpg",
+  "joia2.jpg",
+  "Leo.png",
+  "let.png",
+  "marias.png",
+  "Mel.png",
+  "melo.png",
+  "Rosa.png",
+  "sicha.png",
+  "Will.png"
+];
+
 export default function Pets() {
   const [dados, setDados] = useState([]);
   const [pets, setPets] = useState([]);
@@ -28,6 +45,7 @@ export default function Pets() {
     document.getElementById('editTipo').value = pet.tipo;
     document.getElementById('editIdade').value = pet.idade;
     document.getElementById('editDescricao').value = pet.descricao;
+    document.getElementById('editImagem').value = pet.imagem || "";
 
     document.getElementById("modalEdicao").style.display = "block";
 
@@ -35,18 +53,20 @@ export default function Pets() {
 
   function atualizarPet(){
     const id = document.getElementById('editId').value;
-    let nome, tipo, idade, descricao;
+    let nome, tipo, idade, descricao, imagem;
 
     nome = document.getElementById('editNome').value;
     tipo = document.getElementById('editTipo').value;
     idade = document.getElementById('editIdade').value;
     descricao = document.getElementById('editDescricao').value;
+    imagem = document.getElementById('editImagem').value;
 
     Axios.put(`http://localhost:3001/pet_adocao/${id}`,{
       nome: nome.trim(),
       tipo: tipo.trim(),
       idade: Number(idade),
-      descricao: descricao.trim()
+      descricao: descricao.trim(),
+      imagem: imagem
     }).then((response) => {
       console.log(response);
       alert("Pet atualizado com sucesso!");
@@ -133,6 +153,16 @@ export default function Pets() {
               <div className="form-group-modal">
                 <label htmlFor="editDescricao">Descrição:</label>
                 <textarea name="editDescricao" id="editDescricao"></textarea>
+              </div>
+
+              <div className="form-group-modal">
+                <label htmlFor="editImagem">Imagem:</label>
+                <select id="editImagem" name="imagem">
+                  <option value="">Selecione uma imagem...</option>
+                  {imagensDisponiveis.map((img) => (
+                    <option key={img} value={img}>{img}</option>
+                  ))}
+                </select>
               </div>
 
               <br/>

@@ -91,13 +91,14 @@ function createMemoryDatabase() {
                 }
 
                 if (sqlNormalizado.startsWith("insert into pet_adocao")) {
-                    const [nome, tipo, idade, descricao] = parametrosConsulta;
+                    const [nome, tipo, idade, descricao, imagem] = parametrosConsulta;
                     const linha = {
                         id: state.sequencias.pet_adocao++,
                         nome,
                         tipo,
                         idade,
                         descricao,
+                        imagem,
                     };
 
                     state.pet_adocao.push(linha);
@@ -106,7 +107,7 @@ function createMemoryDatabase() {
                 }
 
                 if (sqlNormalizado.startsWith("update pet_adocao")) {
-                    const [nome, tipo, idade, descricao, id] = parametrosConsulta;
+                    const [nome, tipo, idade, descricao, imagem, id] = parametrosConsulta;
                     const linha = state.pet_adocao.find((item) => item.id === Number(id));
 
                     if (!linha) {
@@ -118,6 +119,7 @@ function createMemoryDatabase() {
                     linha.tipo = tipo;
                     linha.idade = idade;
                     linha.descricao = descricao;
+                    linha.imagem = imagem;
                     funcaoRetorno(null, { affectedRows: 1 });
                     return;
                 }

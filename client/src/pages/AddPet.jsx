@@ -2,11 +2,29 @@ import Navbar from "../components/Navbar";
 import React, {useState} from 'react';
 import Axios from "axios";
 
+const imagensDisponiveis = [
+  "alex.png",
+  "bob.png",
+  "chavosa.png",
+  "Joao.png",
+  "joia.jpg",
+  "joia2.jpg",
+  "Leo.png",
+  "let.png",
+  "marias.png",
+  "Mel.png",
+  "melo.png",
+  "Rosa.png",
+  "sicha.png",
+  "Will.png"
+];
+
 const formularioInicial = {
   nome: "",
   tipo: "",
   idade: "",
-  descricao: ""
+  descricao: "",
+  imagem: ""
 };
 
 export default function AddPet() {
@@ -21,6 +39,8 @@ export default function AddPet() {
       return "Informe uma idade valida para o pet"
     }else if(!formulario.descricao){
       return "Informe uma descrição para o pet"
+    }else if(!formulario.imagem){
+      return "Escolha uma imagem para o pet"
     }
     return ""
   }
@@ -45,7 +65,8 @@ export default function AddPet() {
       nome: formulario.nome.trim(),
       tipo: formulario.tipo.trim(),
       idade: Number(formulario.idade),
-      descricao: formulario.descricao.trim()
+      descricao: formulario.descricao.trim(),
+      imagem: formulario.imagem
     }).then((response) => {
       console.log(response);
       setFormulario(formularioInicial);
@@ -100,6 +121,14 @@ export default function AddPet() {
             required
             onChange={handleChangeValues}
           ></textarea>
+
+          <label htmlFor="imagem">Escolha uma imagem</label>
+          <select id="imagem" name="imagem" required defaultValue="" onChange={handleChangeValues}>
+            <option value="" disabled>Selecione uma imagem...</option>
+            {imagensDisponiveis.map((img) => (
+              <option key={img} value={img}>{img}</option>
+            ))}
+          </select>
 
           <button type="submit">Adicionar Pet</button>
         </form>

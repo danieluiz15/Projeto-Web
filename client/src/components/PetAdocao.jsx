@@ -4,6 +4,13 @@ export default function PetAdocao ({pet, onEdit, onDelete}){
     return(
         <article className="pet-card" key={pet.id}>
             <div className="card-body">
+            {pet.imagem && (
+                <img 
+                    src={`/img/${pet.imagem}`} 
+                    alt={pet.nome}
+                    style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px', marginBottom: '1rem' }}
+                />
+            )}
             <h5 className="card-title">{pet.nome}</h5>
             <p className="card-text">
                 Idade: {pet.idade}, Especie: {pet.tipo}

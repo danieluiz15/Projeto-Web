@@ -60,9 +60,10 @@ app.post("/pet_adocao",(req, res)=>{
   const {idade} = req.body;
   const {tipo} = req.body;
   const {descricao} = req.body;
-  let SQL = "INSERT INTO pet_adocao(id,nome,tipo,idade,descricao) VALUES (null,?,?,?,?)";
+  const {imagem} = req.body;
+  let SQL = "INSERT INTO pet_adocao(id,nome,tipo,idade,descricao,imagem) VALUES (null,?,?,?,?,?)";
   
-  db.query(SQL,[nome,tipo, idade, descricao],(err, result)=>{
+  db.query(SQL,[nome,tipo, idade, descricao, imagem],(err, result)=>{
     if (err) console.log(err);
     res.status(201).json({ message: "Pet adicionado com sucesso"});
   })
@@ -70,9 +71,9 @@ app.post("/pet_adocao",(req, res)=>{
 
 app.put("/pet_adocao/:id", (req, res) => {
   const petId = req.params.id;
-  const { nome, tipo, idade, descricao } = req.body;
-  const SQL = "UPDATE pet_adocao SET nome = ?, tipo = ?, idade = ?, descricao = ? WHERE id = ?";
-  db.query(SQL, [nome, tipo, idade, descricao, petId], (err, result) => {
+  const { nome, tipo, idade, descricao, imagem } = req.body;
+  const SQL = "UPDATE pet_adocao SET nome = ?, tipo = ?, idade = ?, descricao = ?, imagem = ? WHERE id = ?";
+  db.query(SQL, [nome, tipo, idade, descricao, imagem, petId], (err, result) => {
     if (err) {
       console.error(err);
       res.status(500).json({ error: "Erro ao editar pet" });

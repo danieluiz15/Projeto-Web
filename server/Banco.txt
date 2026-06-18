@@ -7,22 +7,23 @@ CREATE TABLE pet_adocao(
     nome VARCHAR(60) NOT NULL,
     tipo ENUM("Cachorro", "Gato", "Outro") NOT NULL,
     idade DECIMAL(4,2) NOT NULL,
-    descricao VARCHAR(255) NOT NULL
+    descricao VARCHAR(255) NOT NULL,
+    imagem VARCHAR(255) NOT NULL
 );
 
 # Dados de teste para a utilização no prejeto
 
-INSERT INTO pet_adocao (nome, tipo, idade, descricao) VALUES
-('Rex', 'Cachorro', 3.50, 'Cachorro dócil e brincalhão, adora correr e interagir com pessoas.');
+INSERT INTO pet_adocao (nome, tipo, idade, descricao, imagem) VALUES
+('Rex', 'Cachorro', 3.50, 'Cachorro dócil e brincalhão, adora correr e interagir com pessoas.', 'Will.png');
 
-INSERT INTO pet_adocao (nome, tipo, idade, descricao) VALUES
-('Mimi', 'Gato', 2.00, 'Gata tranquila, gosta de ambientes calmos e é muito carinhosa.');
+INSERT INTO pet_adocao (nome, tipo, idade, descricao, imagem) VALUES
+('Mimi', 'Gato', 2.00, 'Gata tranquila, gosta de ambientes calmos e é muito carinhosa.', 'Mel.png');
 
-INSERT INTO pet_adocao (nome, tipo, idade, descricao) VALUES
-('Thor', 'Cachorro', 5.00, 'Cachorro protetor e leal, ideal para quem busca companhia fiel.');
+INSERT INTO pet_adocao (nome, tipo, idade, descricao, imagem) VALUES
+('Thor', 'Cachorro', 5.00, 'Cachorro protetor e leal, ideal para quem busca companhia fiel.', 'bob.png');
 
-INSERT INTO pet_adocao (nome, tipo, idade, descricao) VALUES
-('Luna', 'Outro', 1.25, 'Coelha branca muito ativa, perfeita para famílias com crianças.');
+INSERT INTO pet_adocao (nome, tipo, idade, descricao, imagem) VALUES
+('Luna', 'Outro', 1.25, 'Coelha branca muito ativa, perfeita para famílias com crianças.', 'Rosa.png');
 
 CREATE TABLE adocao(
     id INT AUTO_INCREMENT PRIMARY KEY,
