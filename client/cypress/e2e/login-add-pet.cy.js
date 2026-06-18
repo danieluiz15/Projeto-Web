@@ -208,3 +208,153 @@ describe("Teste de sistema - CRUD de pet para adoção", () => {
       .should('not.contain', "Bella");
   });
 });
+
+describe("Teste de sistema - CRUD de pedidos de adoção", ()=>{
+  function AbrirPedidoAdocao(){
+    cy.contains("Quero adotar", {})
+      .should("be.visible")
+      .click();
+
+    cy.contains("Rex")
+      .parent()
+      .contains("Quero adotar")
+      .click();
+
+    cy.contains("Confirmar e preencher formulário")
+      .should('be.visible')
+      .click();
+  }
+
+  beforeEach(()=>{
+    fazerLogin();
+  });
+
+  it("Deve cadastrar um pedido pela interface", ()=>{
+    AbrirPedidoAdocao();
+
+    cy.get("#inputNome").type("Lucas");
+    cy.get("#inputSobrenome").type("Almeida");
+    cy.get("#inputAddress").type("Rua Azul, 321");
+    cy.get("#inputAddress2").type("Apto 202");
+    cy.get("#inputCity").type("Brasília");
+    cy.get("#inputEstado").select("DF");
+    cy.get("#inputCEP").type("72000-000");
+
+    cy.contains("Confirmar")
+      .should('be.visible')
+      .click();
+
+    cy.get("#motivo").type("Quero um animal para companhia no dia a dia.");
+
+    cy.contains("Enviar")
+      .should('be.visible')
+      .click();
+
+    cy.contains("h2", "Seu pedido de adoção foi realizado com sucesso!");
+  })
+
+  it("Deve Listar os pedidos de adoção", ()=>{
+    cy.contains("Institucional")
+      .should("be.visible")
+      .click();
+    
+    cy.contains("Pedidos de Adoção")
+      .should("be.visible")
+      .click();
+
+    cy.contains("h2", "Pedidos de Adoção")
+      .should("be.visible");
+    
+    cy.contains("Lucas");
+  })
+
+  it("Deve preparar para a edição de um pedido", ()=>{
+    cy.contains("Institucional")
+      .should("be.visible")
+      .click();
+    
+    cy.contains("Pedidos de Adoção")
+      .should("be.visible")
+      .click();
+
+    cy.contains("Lucas")
+      .parent()
+      .parent()
+      .contains("Editar solicitante")
+      .click();
+
+    cy.get('#editNomeP')
+    .should("have.value", "Lucas");
+
+    cy.get('#editSobrenomeP')
+    .should("have.value", "Almeida");
+
+    cy.get('#editEnderecoP')
+    .should("have.value", "Rua Azul, 321");
+
+    cy.get('#editEndereco2P')
+    .should("have.value", "Apto 202");
+
+    cy.get('#editCidadeP')
+      .should("have.value", "Brasília");
+
+    cy.get('#editEstadoP')
+      .should("have.value", "DF");
+
+    cy.get('#editCepP')
+      .should("have.value", "72000-000");
+
+    cy.contains("Salvar alterações")
+      .should("be.visible");
+  });
+
+  it("Deve atualizar um pedido pela interface", ()=>{
+    cy.contains("Institucional")
+      .should("be.visible")
+      .click();
+    
+    cy.contains("Pedidos de Adoção")
+      .should("be.visible")
+      .click();
+
+    cy.contains("Lucas")
+      .parent()
+      .parent()
+      .contains("Editar solicitante")
+      .click();
+
+    cy.get("#editEnderecoP").clear().type("Rua Nova Esperança, 987");
+    cy.get("#editEndereco2P").clear().type("Casa");
+
+    cy.contains("Salvar alterações")
+      .should("be.visible")
+      .click();
+    
+    cy.on('window.alert', (alertText)=>{
+      expect.alertText.to.contains('Pedido de adoção editado com sucesso');
+    });
+  });
+
+  it("Deve excluir um pedido de adoção pela interface", ()=>{
+    cy.contains("Institucional")
+      .should("be.visible")
+      .click();
+    
+    cy.contains("Pedidos de Adoção")
+      .should("be.visible")
+      .click();
+
+    cy.on("window:confirm", ()=> true);
+    cy.contains("Lucas")
+      .parent()
+      .parent()
+      .contains("Excluir")
+      .click();
+
+    cy.on('window.alert', (alertText)=>{
+      expect.alertText.to.contains('Pedido excluido com sucesso');
+    }).then(()=>{
+      cy.contains("Lucas").should('not.exist');
+    });
+  });
+});

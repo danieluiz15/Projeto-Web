@@ -44,6 +44,7 @@ function PedidoAdocao() {
     setPedidos(pedidos.filter((pedido) => pedido.id !== id));
     if(window.confirm("Deseja mesmo excluir o pedido de adoção?")){
       axios.delete(`http://localhost:3001/adocao/${id}`);
+      alert("Pedido excluido com sucesso");
     }else{
       return "Operação cancelada";
     }
@@ -295,6 +296,7 @@ function PedidoAdocao() {
                   <strong>Nome:</strong>
                   <input
                     type="text"
+                    id="editNomeP"
                     value={formEdicao.nome}
                     onChange={(e) => atualizarCampo("nome", e.target.value)}
                     style={estiloInput}
@@ -305,6 +307,7 @@ function PedidoAdocao() {
                   <strong>Sobrenome:</strong>
                   <input
                     type="text"
+                    id="editSobrenomeP"
                     value={formEdicao.sobrenome}
                     onChange={(e) =>
                       atualizarCampo("sobrenome", e.target.value)
@@ -317,6 +320,7 @@ function PedidoAdocao() {
                   <strong>Endereço:</strong>
                   <input
                     type="text"
+                    id="editEnderecoP"
                     value={formEdicao.endereco}
                     onChange={(e) =>
                       atualizarCampo("endereco", e.target.value)
@@ -329,6 +333,7 @@ function PedidoAdocao() {
                   <strong>Endereço auxiliar:</strong>
                   <input
                     type="text"
+                    id="editEndereco2P"
                     value={formEdicao.endereco_aux}
                     onChange={(e) =>
                       atualizarCampo("endereco_aux", e.target.value)
@@ -341,6 +346,7 @@ function PedidoAdocao() {
                   <strong>Cidade:</strong>
                   <input
                     type="text"
+                    id="editCidadeP"
                     value={formEdicao.cidade}
                     onChange={(e) => atualizarCampo("cidade", e.target.value)}
                     style={estiloInput}
@@ -351,6 +357,7 @@ function PedidoAdocao() {
                   <strong>Estado:</strong>
                   <select
                     value={formEdicao.estado}
+                    id="editEstadoP"
                     onChange={(e) => atualizarCampo("estado", e.target.value)}
                     style={estiloInput}
                   >
@@ -368,6 +375,7 @@ function PedidoAdocao() {
                   <strong>CEP:</strong>
                   <input
                     type="text"
+                    id="editCepP"
                     value={formEdicao.cep}
                     onChange={(e) => atualizarCampo("cep", e.target.value)}
                     style={estiloInput}
