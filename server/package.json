@@ -4,10 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --runInBand",
-    "test:coverage": "jest --runInBand --coverage",
-    "dev": "nodemon index.js"
-  },
+  "test": "jest --runInBand",
+  "test:coverage": "jest --runInBand --coverage",
+  "start": "node index.js",
+  "dev": "nodemon index.js"
+}
+,
   "keywords": [],
   "author": "",
   "license": "ISC",
