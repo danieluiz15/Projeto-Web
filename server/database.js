@@ -216,6 +216,13 @@ function createMemoryDatabase() {
                     return;
                 }
 
+                if (sqlNormalizado.startsWith("select count(*) as count from adocao where petid = ?")) {
+                    const [petID] = parametrosConsulta;
+                    const linhas = state.adocao.filter((linha) => linha.petID === Number(petID));
+                    funcaoRetorno(null, [{ count: linhas.length }]);
+                    return;
+                }
+
                 throw new Error(`Unsupported query: ${sql}`);
             } catch (error) {
                 funcaoRetorno(error);
