@@ -47,18 +47,19 @@ async function seedPet(overrides = {}) {
 
 async function seedAdocao(petId, overrides = {}) {
   const result = await query(
-    "INSERT INTO adocao (nome, sobrenome, endereco, endereco_aux, cidade, estado, cep, petID, motivo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    [
-      overrides.nome ?? "Ana",
-      overrides.sobrenome ?? "Silva",
-      overrides.endereco ?? "Rua A, 10",
-      overrides.endereco_aux ?? "Casa",
-      overrides.cidade ?? "Brasília",
-      overrides.estado ?? "DF",
-      overrides.cep ?? "70000-000",
-      petId,
-      overrides.motivo ?? "Quero adotar um pet de teste",
-    ]
+    "INSERT INTO adocao (nome, sobrenome, endereco, endereco_aux, cidade, estado, cep, motivo, petID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+  [
+    overrides.nome ?? "Ana",
+    overrides.sobrenome ?? "Silva",
+    overrides.endereco ?? "Rua A, 10",
+    overrides.endereco_aux ?? "Casa",
+    overrides.cidade ?? "Brasília",
+    overrides.estado ?? "DF",
+    overrides.cep ?? "70000-000",
+    overrides.motivo ?? "Quero adotar um pet de teste",
+    petId,
+  ]
+
   );
 
   const rows = await query(
@@ -282,4 +283,42 @@ test("PUT /adocao/:id atualiza os dados de um pedido de adoção", async () => {
   expect(rows[0].cidade).toBe("Taguatinga");
   expect(rows[0].cep).toBe("72100-000");
 });
+test("DELETE /pet_adocao/:id remove um pet do banco", async () => {
+  await resetTables();
+  const pet = await seedPet({ nome: "Toby", tipo: "Cachorro" });
+
+  const response = await request(app).delete(`/pet_adocao/${pet.id}`);
+
+  expect([200, 201]).toContain(response.status);
+  expect(response.body).toEqual({ message: "Pet excluído com sucesso" });
+
+  const rows = await query("SELECT * FROM pet_adocao WHERE id = ?", [pet.id]);
+  expect(rows).toHaveLength(0);
+});
+
+test("DELETE /adocao/:id remove um pedido de adoção", async () => {
+  await resetTables();
+  const pet = await seedPet({ nome: "Lola", tipo: "Gato" });
+
+  const adocao = await seedAdocao(pet.id, {
+  nome: "João",
+  sobrenome: "Pereira",
+  endereco: "Rua das Palmeiras, 45",
+  endereco_aux: "Casa",
+  cidade: "Brasília",
+  estado: "DF",
+  cep: "70000-002",
+  motivo: "Quero cuidar bem do animal",
+});
+
+  const response = await request(app).delete(`/adocao/${adocao.id}`);
+
+  expect([200, 201]).toContain(response.status);
+  expect(response.body).toEqual({ message: "Adoção deletada com sucesso" });
+
+
+  const rows = await query("SELECT * FROM adocao WHERE id = ?", [adocao.id]);
+  expect(rows).toHaveLength(0);
+});
+
 });
